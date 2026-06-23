@@ -1,0 +1,14 @@
+# Core dependencies
+pdf2image>=1.17.0
+Pillow>=10.0.0
+pypdfium2>=4.0.0
+
+# AWS Bedrock + S3 + Athena
+boto3>=1.34.0
+
+# Parquet export (for Athena)
+pandas>=2.0.0
+pyarrow>=14.0.0
+
+# Optional: Anthropic direct API (for anthropic OCR backend)
+# anthropic>=0.25.0

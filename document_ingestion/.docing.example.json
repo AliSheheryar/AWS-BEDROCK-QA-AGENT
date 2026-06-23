@@ -1,0 +1,5 @@
+{
+    "ollama_host": "http://localhost:11434",
+    "vision_model": "llama3.2-vision",
+    "text_model": "llama3.1"
+}

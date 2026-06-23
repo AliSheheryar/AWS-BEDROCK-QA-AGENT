@@ -1,0 +1,90 @@
+<svg viewBox="0 0 800 420" xmlns="http://www.w3.org/2000/svg" font-family="Segoe UI, Arial, sans-serif">
+  <defs>
+    <marker id="ar4" viewBox="0 0 10 10" refX="10" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-auto">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#475569"/>
+    </marker>
+    <linearGradient id="hg4" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#047857"/>
+      <stop offset="100%" stop-color="#0284c7"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="800" height="420" rx="12" fill="#f8fafc" stroke="#e2e8f0" stroke-width="1"/>
+
+  <!-- Title -->
+  <rect x="0" y="0" width="800" height="50" rx="12" fill="url(#hg4)"/>
+  <rect x="0" y="25" width="800" height="25" fill="url(#hg4)"/>
+  <text x="400" y="33" text-anchor="middle" fill="white" font-size="18" font-weight="bold">How Athena Uses Glue for Schema</text>
+
+  <!-- Step 1: Athena receives SQL -->
+  <rect x="60" y="85" width="200" height="80" rx="8" fill="#dbeafe" stroke="#3b82f6" stroke-width="1.5"/>
+  <text x="160" y="108" text-anchor="middle" fill="#1e3a8a" font-size="14" font-weight="bold">Amazon Athena</text>
+  <text x="160" y="128" text-anchor="middle" fill="#1e40af" font-size="11">Receives SQL query</text>
+  <text x="160" y="148" text-anchor="middle" fill="#64748b" font-size="9" font-style="italic">SELECT court, COUNT(*)</text>
+  <text x="160" y="158" text-anchor="middle" fill="#64748b" font-size="9" font-style="italic">FROM events GROUP BY court</text>
+
+  <!-- Step number -->
+  <circle cx="60" cy="85" r="14" fill="#3b82f6"/>
+  <text x="60" y="90" text-anchor="middle" fill="white" font-size="12" font-weight="bold">1</text>
+
+  <!-- Arrow to Glue -->
+  <line x1="260" y1="125" x2="330" y2="125" stroke="#475569" stroke-width="2" marker-end="url(#ar4)"/>
+  <text x="290" y="118" fill="#475569" font-size="10" font-weight="bold">looks up</text>
+
+  <!-- Step 2: Glue Catalog -->
+  <rect x="335" y="75" width="220" height="100" rx="8" fill="#d1fae5" stroke="#10b981" stroke-width="1.5"/>
+  <text x="445" y="100" text-anchor="middle" fill="#065f46" font-size="14" font-weight="bold">Glue Data Catalog</text>
+
+  <circle cx="335" cy="75" r="14" fill="#10b981"/>
+  <text x="335" y="80" text-anchor="middle" fill="white" font-size="12" font-weight="bold">2</text>
+
+  <!-- Glue contents -->
+  <rect x="350" y="110" width="190" height="55" rx="4" fill="white" stroke="#86efac" stroke-width="1"/>
+  <text x="445" y="128" text-anchor="middle" fill="#065f46" font-size="10" font-weight="bold">Table: events</text>
+  <text x="445" y="142" text-anchor="middle" fill="#047857" font-size="9">Columns: date, action, party, court...</text>
+  <text x="445" y="155" text-anchor="middle" fill="#047857" font-size="9">Location: s3://bucket/athena_data/events/</text>
+
+  <!-- Arrow to S3 -->
+  <line x1="555" y1="125" x2="610" y2="125" stroke="#475569" stroke-width="2" marker-end="url(#ar4)"/>
+  <text x="575" y="118" fill="#475569" font-size="10" font-weight="bold">points to</text>
+
+  <!-- Step 3: S3 -->
+  <rect x="615" y="85" width="160" height="80" rx="8" fill="#fed7aa" stroke="#ea580c" stroke-width="1.5"/>
+  <text x="695" y="108" text-anchor="middle" fill="#9a3412" font-size="14" font-weight="bold">S3 Bucket</text>
+  <text x="695" y="128" text-anchor="middle" fill="#9a3412" font-size="11">Parquet files</text>
+  <text x="695" y="148" text-anchor="middle" fill="#9a3412" font-size="9">Columnar format:</text>
+  <text x="695" y="158" text-anchor="middle" fill="#9a3412" font-size="9">reads only needed cols</text>
+
+  <circle cx="615" cy="85" r="14" fill="#ea580c"/>
+  <text x="615" y="90" text-anchor="middle" fill="white" font-size="12" font-weight="bold">3</text>
+
+  <!-- Summary boxes -->
+  <rect x="60" y="220" width="210" height="65" rx="8" fill="#eff6ff" stroke="#93c5fd" stroke-width="1"/>
+  <text x="165" y="243" text-anchor="middle" fill="#1e3a8a" font-size="13" font-weight="bold">Glue = Metadata Only</text>
+  <text x="165" y="260" text-anchor="middle" fill="#1e40af" font-size="10">Column names, types, file format,</text>
+  <text x="165" y="273" text-anchor="middle" fill="#1e40af" font-size="10">S3 location. Zero actual data.</text>
+
+  <rect x="295" y="220" width="210" height="65" rx="8" fill="#eff6ff" stroke="#93c5fd" stroke-width="1"/>
+  <text x="400" y="243" text-anchor="middle" fill="#1e3a8a" font-size="13" font-weight="bold">Athena = Compute Only</text>
+  <text x="400" y="260" text-anchor="middle" fill="#1e40af" font-size="10">Parses SQL, reads from S3.</text>
+  <text x="400" y="273" text-anchor="middle" fill="#1e40af" font-size="10">Stores nothing itself.</text>
+
+  <rect x="530" y="220" width="210" height="65" rx="8" fill="#eff6ff" stroke="#93c5fd" stroke-width="1"/>
+  <text x="635" y="243" text-anchor="middle" fill="#1e3a8a" font-size="13" font-weight="bold">S3 = Storage Only</text>
+  <text x="635" y="260" text-anchor="middle" fill="#1e40af" font-size="10">Holds Parquet files. Columnar</text>
+  <text x="635" y="273" text-anchor="middle" fill="#1e40af" font-size="10">format = skip unused columns.</text>
+
+  <!-- Glue Tables detail -->
+  <rect x="60" y="310" width="710" height="95" rx="8" fill="white" stroke="#e2e8f0" stroke-width="1"/>
+  <text x="400" y="332" text-anchor="middle" fill="#334155" font-size="13" font-weight="bold">Glue Tables (created by Terraform)</text>
+
+  <rect x="80" y="345" width="320" height="50" rx="4" fill="#f0fdf4" stroke="#86efac" stroke-width="1"/>
+  <text x="240" y="363" text-anchor="middle" fill="#065f46" font-size="11" font-weight="bold">events (15 columns)</text>
+  <text x="240" y="380" text-anchor="middle" fill="#047857" font-size="9">event_id, date, action, party, court, excerpt, confidence ...</text>
+  <text x="240" y="391" text-anchor="middle" fill="#047857" font-size="9">→ s3://bucket/athena_data/events/</text>
+
+  <rect x="420" y="345" width="330" height="50" rx="4" fill="#f0fdf4" stroke="#86efac" stroke-width="1"/>
+  <text x="585" y="363" text-anchor="middle" fill="#065f46" font-size="11" font-weight="bold">case_actors (4 columns)</text>
+  <text x="585" y="380" text-anchor="middle" fill="#047857" font-size="9">name, role, mentions, canonical_id</text>
+  <text x="585" y="391" text-anchor="middle" fill="#047857" font-size="9">→ s3://bucket/athena_data/case_actors/</text>
+</svg>

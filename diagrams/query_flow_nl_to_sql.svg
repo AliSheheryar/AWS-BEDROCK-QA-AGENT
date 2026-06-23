@@ -1,0 +1,77 @@
+<svg viewBox="0 0 800 480" xmlns="http://www.w3.org/2000/svg" font-family="Segoe UI, Arial, sans-serif">
+  <defs>
+    <marker id="arr" viewBox="0 0 10 10" refX="10" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-auto">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#475569"/>
+    </marker>
+    <linearGradient id="hg2" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#1e3a5f"/>
+      <stop offset="100%" stop-color="#7c3aed"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="800" height="480" rx="12" fill="#f8fafc" stroke="#e2e8f0" stroke-width="1"/>
+
+  <!-- Title -->
+  <rect x="0" y="0" width="800" height="50" rx="12" fill="url(#hg2)"/>
+  <rect x="0" y="25" width="800" height="25" fill="url(#hg2)"/>
+  <text x="400" y="33" text-anchor="middle" fill="white" font-size="18" font-weight="bold">NL-to-SQL Query Flow (Athena Path)</text>
+
+  <!-- Step 1: User Question -->
+  <rect x="280" y="75" width="240" height="55" rx="25" fill="#ede9fe" stroke="#8b5cf6" stroke-width="2"/>
+  <text x="400" y="100" text-anchor="middle" fill="#5b21b6" font-size="14" font-weight="bold">User Question</text>
+  <text x="400" y="116" text-anchor="middle" fill="#6d28d9" font-size="11">"How many motions filed in 2024?"</text>
+
+  <!-- Arrow down -->
+  <line x1="400" y1="130" x2="400" y2="165" stroke="#475569" stroke-width="1.5" marker-end="url(#arr)"/>
+  <text x="415" y="152" fill="#475569" font-size="10">1</text>
+
+  <!-- Step 2: Bedrock Claude -->
+  <rect x="250" y="170" width="300" height="65" rx="8" fill="#fef3c7" stroke="#f59e0b" stroke-width="1.5"/>
+  <text x="400" y="195" text-anchor="middle" fill="#92400e" font-size="14" font-weight="bold">AWS Bedrock (Claude 3.5 Sonnet)</text>
+  <text x="400" y="212" text-anchor="middle" fill="#92400e" font-size="11">NL → SQL conversion</text>
+  <text x="400" y="225" text-anchor="middle" fill="#b45309" font-size="10" font-style="italic">Knows table schema: events, case_actors</text>
+
+  <!-- Arrow down -->
+  <line x1="400" y1="235" x2="400" y2="270" stroke="#475569" stroke-width="1.5" marker-end="url(#arr)"/>
+  <text x="415" y="257" fill="#475569" font-size="10">2</text>
+  <text x="440" y="257" fill="#64748b" font-size="9">SELECT court, COUNT(*) FROM events ...</text>
+
+  <!-- Step 3: Athena -->
+  <rect x="250" y="275" width="300" height="55" rx="8" fill="#dbeafe" stroke="#3b82f6" stroke-width="1.5"/>
+  <text x="400" y="298" text-anchor="middle" fill="#1e3a8a" font-size="14" font-weight="bold">Amazon Athena</text>
+  <text x="400" y="315" text-anchor="middle" fill="#1e40af" font-size="11">Executes SQL (serverless, pay-per-query)</text>
+
+  <!-- Arrow right to Glue -->
+  <line x1="550" y1="302" x2="600" y2="302" stroke="#475569" stroke-width="1.5" marker-end="url(#arr)"/>
+  <text x="570" y="295" fill="#475569" font-size="10">3</text>
+
+  <!-- Glue box -->
+  <rect x="605" y="275" width="165" height="55" rx="8" fill="#d1fae5" stroke="#10b981" stroke-width="1.5"/>
+  <text x="687" y="298" text-anchor="middle" fill="#065f46" font-size="13" font-weight="bold">Glue Data Catalog</text>
+  <text x="687" y="315" text-anchor="middle" fill="#047857" font-size="10">Schema + S3 locations</text>
+
+  <!-- Arrow from Athena down to S3 -->
+  <line x1="400" y1="330" x2="400" y2="365" stroke="#475569" stroke-width="1.5" marker-end="url(#arr)"/>
+  <text x="415" y="352" fill="#475569" font-size="10">4</text>
+  <text x="440" y="352" fill="#64748b" font-size="9">reads only needed columns</text>
+
+  <!-- S3 -->
+  <rect x="250" y="370" width="300" height="50" rx="8" fill="#fed7aa" stroke="#ea580c" stroke-width="1.5"/>
+  <text x="400" y="393" text-anchor="middle" fill="#9a3412" font-size="14" font-weight="bold">S3 — Parquet Files</text>
+  <text x="400" y="408" text-anchor="middle" fill="#9a3412" font-size="10">athena_data/events/events.parquet</text>
+
+  <!-- Arrow back up to result -->
+  <line x1="250" y1="395" x2="160" y2="395" stroke="#475569" stroke-width="1.5"/>
+  <line x1="160" y1="395" x2="160" y2="440" stroke="#475569" stroke-width="1.5"/>
+  <line x1="160" y1="440" x2="280" y2="440" stroke="#475569" stroke-width="1.5" marker-end="url(#arr)"/>
+  <text x="165" y="430" fill="#475569" font-size="10">5</text>
+
+  <!-- Result -->
+  <rect x="285" y="425" width="230" height="40" rx="20" fill="#dcfce7" stroke="#22c55e" stroke-width="2"/>
+  <text x="400" y="450" text-anchor="middle" fill="#166534" font-size="13" font-weight="bold">Structured Results → User</text>
+
+  <!-- Glue arrow to S3 -->
+  <line x1="687" y1="330" x2="687" y2="382" stroke="#10b981" stroke-width="1" stroke-dasharray="4,2"/>
+  <line x1="687" y1="382" x2="550" y2="382" stroke="#10b981" stroke-width="1" stroke-dasharray="4,2" marker-end="url(#arr)"/>
+  <text x="630" y="370" fill="#047857" font-size="9">points to S3 path</text>
+</svg>

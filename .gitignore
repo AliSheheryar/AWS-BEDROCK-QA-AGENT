@@ -1,0 +1,28 @@
+# Local config (may contain a custom Ollama host)
+.docing.json
+**/.docing.json
+
+# Pipeline working dirs
+work/
+**/raw_md/
+**/clean_md/
+*.db
+*.db-journal
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+.venv/
+.env
+
+# Terraform
+terraform/.terraform/
+terraform/*.tfstate
+terraform/*.tfstate.backup
+terraform/*.tfvars
+!terraform/terraform.tfvars.example
+
+# OS
+.DS_Store
+Thumbs.db

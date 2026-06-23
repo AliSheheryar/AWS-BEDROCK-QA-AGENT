@@ -1,0 +1,92 @@
+<svg viewBox="0 0 800 520" xmlns="http://www.w3.org/2000/svg" font-family="Segoe UI, Arial, sans-serif">
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="10" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-auto">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#475569"/>
+    </marker>
+    <linearGradient id="headerGrad" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#1e3a5f"/>
+      <stop offset="100%" stop-color="#2563eb"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Background -->
+  <rect width="800" height="520" rx="12" fill="#f8fafc" stroke="#e2e8f0" stroke-width="1"/>
+
+  <!-- Title -->
+  <rect x="0" y="0" width="800" height="50" rx="12" fill="url(#headerGrad)"/>
+  <rect x="0" y="25" width="800" height="25" fill="url(#headerGrad)"/>
+  <text x="400" y="33" text-anchor="middle" fill="white" font-size="18" font-weight="bold">Ingestion Pipeline</text>
+
+  <!-- LOCAL PIPELINE label -->
+  <rect x="30" y="70" width="740" height="280" rx="10" fill="#eff6ff" stroke="#93c5fd" stroke-width="1.5" stroke-dasharray="6,3"/>
+  <text x="50" y="92" fill="#1e40af" font-size="12" font-weight="bold">LOCAL PIPELINE</text>
+
+  <!-- Stage 1: OCR -->
+  <rect x="60" y="110" width="140" height="70" rx="8" fill="#dbeafe" stroke="#3b82f6" stroke-width="1.5"/>
+  <text x="130" y="137" text-anchor="middle" fill="#1e3a8a" font-size="13" font-weight="bold">1. OCR</text>
+  <text x="130" y="155" text-anchor="middle" fill="#1e40af" font-size="10">PDF pages → PNG</text>
+  <text x="130" y="168" text-anchor="middle" fill="#1e40af" font-size="10">→ Markdown</text>
+
+  <!-- Arrow -->
+  <line x1="200" y1="145" x2="235" y2="145" stroke="#475569" stroke-width="1.5" marker-end="url(#arrow)"/>
+
+  <!-- Stage 2: Clean -->
+  <rect x="240" y="110" width="140" height="70" rx="8" fill="#dbeafe" stroke="#3b82f6" stroke-width="1.5"/>
+  <text x="310" y="137" text-anchor="middle" fill="#1e3a8a" font-size="13" font-weight="bold">2. Clean</text>
+  <text x="310" y="155" text-anchor="middle" fill="#1e40af" font-size="10">Strip artifacts</text>
+  <text x="310" y="168" text-anchor="middle" fill="#1e40af" font-size="10">Fix formatting</text>
+
+  <!-- Arrow -->
+  <line x1="380" y1="145" x2="415" y2="145" stroke="#475569" stroke-width="1.5" marker-end="url(#arrow)"/>
+
+  <!-- Stage 3: Extract -->
+  <rect x="420" y="110" width="140" height="70" rx="8" fill="#dbeafe" stroke="#3b82f6" stroke-width="1.5"/>
+  <text x="490" y="137" text-anchor="middle" fill="#1e3a8a" font-size="13" font-weight="bold">3. Extract</text>
+  <text x="490" y="155" text-anchor="middle" fill="#1e40af" font-size="10">LLM event extraction</text>
+  <text x="490" y="168" text-anchor="middle" fill="#1e40af" font-size="10">+ grounding gate</text>
+
+  <!-- Arrow -->
+  <line x1="560" y1="145" x2="595" y2="145" stroke="#475569" stroke-width="1.5" marker-end="url(#arrow)"/>
+
+  <!-- Stage 4: Persist -->
+  <rect x="600" y="110" width="140" height="70" rx="8" fill="#dbeafe" stroke="#3b82f6" stroke-width="1.5"/>
+  <text x="670" y="137" text-anchor="middle" fill="#1e3a8a" font-size="13" font-weight="bold">4. Persist</text>
+  <text x="670" y="155" text-anchor="middle" fill="#1e40af" font-size="10">SQLite tables:</text>
+  <text x="670" y="168" text-anchor="middle" fill="#1e40af" font-size="10">events, actors</text>
+
+  <!-- Down arrow from Persist to Export -->
+  <line x1="670" y1="180" x2="670" y2="220" stroke="#475569" stroke-width="1.5" marker-end="url(#arrow)"/>
+
+  <!-- Stage 5: Export -->
+  <rect x="540" y="225" width="270" height="55" rx="8" fill="#fef3c7" stroke="#f59e0b" stroke-width="1.5"/>
+  <text x="675" y="249" text-anchor="middle" fill="#92400e" font-size="13" font-weight="bold">5. Export to Parquet</text>
+  <text x="675" y="265" text-anchor="middle" fill="#92400e" font-size="10">SQLite → pandas → pyarrow → .parquet</text>
+
+  <!-- Down arrow from local to S3 -->
+  <line x1="400" y1="350" x2="400" y2="385" stroke="#475569" stroke-width="2" marker-end="url(#arrow)"/>
+  <text x="408" y="375" fill="#475569" font-size="11" font-weight="bold">POST-INGEST SYNC</text>
+
+  <!-- S3 Box -->
+  <rect x="130" y="390" width="540" height="55" rx="8" fill="#fed7aa" stroke="#ea580c" stroke-width="1.5"/>
+  <text x="400" y="414" text-anchor="middle" fill="#9a3412" font-size="14" font-weight="bold">Amazon S3</text>
+  <text x="400" y="432" text-anchor="middle" fill="#9a3412" font-size="11">clean_markdown/ (for Bedrock KB)    |    athena_data/ (Parquet for Athena)</text>
+
+  <!-- Downstream consumers -->
+  <rect x="140" y="465" width="210" height="35" rx="6" fill="#e0e7ff" stroke="#6366f1" stroke-width="1" stroke-dasharray="4,2"/>
+  <text x="245" y="487" text-anchor="middle" fill="#4338ca" font-size="11">Bedrock Knowledge Base</text>
+
+  <rect x="450" y="465" width="210" height="35" rx="6" fill="#e0e7ff" stroke="#6366f1" stroke-width="1" stroke-dasharray="4,2"/>
+  <text x="555" y="487" text-anchor="middle" fill="#4338ca" font-size="11">Athena + Glue Catalog</text>
+
+  <text x="400" y="515" text-anchor="middle" fill="#94a3b8" font-size="10" font-style="italic">↑ used at query time, not during ingestion</text>
+
+  <!-- Clean MD arrow to S3 -->
+  <line x1="310" y1="280" x2="310" y2="310" stroke="#475569" stroke-width="1" stroke-dasharray="4,2"/>
+  <line x1="310" y1="310" x2="270" y2="390" stroke="#475569" stroke-width="1.5" marker-end="url(#arrow)"/>
+  <text x="250" y="320" fill="#64748b" font-size="9">clean .md</text>
+
+  <!-- Parquet arrow to S3 -->
+  <line x1="675" y1="280" x2="675" y2="310" stroke="#475569" stroke-width="1" stroke-dasharray="4,2"/>
+  <line x1="675" y1="310" x2="540" y2="390" stroke="#475569" stroke-width="1.5" marker-end="url(#arrow)"/>
+  <text x="640" y="320" fill="#64748b" font-size="9">.parquet</text>
+</svg>

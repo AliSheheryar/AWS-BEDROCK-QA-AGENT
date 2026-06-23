@@ -1,0 +1,7 @@
+aws_region            = "us-east-1"
+environment           = "dev"
+project_name          = "doc-rag"
+s3_bucket_name        = "doc-rag-data-ACCOUNT_ID"
+glue_database_name    = "doc_rag_db"
+athena_workgroup_name = "doc-rag-workgroup"
+bedrock_model_id      = "anthropic.claude-3-5-sonnet-20241022-v2:0"
